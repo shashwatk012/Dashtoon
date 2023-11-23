@@ -20,22 +20,17 @@ let flag = 0;
 setInterval(() => {
   const facts = comicfacts[Math.floor(Math.random() * 9)];
   comfacts.innerHTML = facts;
-}, 10000);
+}, 20000);
 
 for (let i = 0; i < 10; i++) {
   const divElement1 = document.createElement("div");
   divElement1.className = "panel";
   // divElement1.style.backgroundColor = "green";
-  const text = document.createElement("h6");
-  text.className = "text bottom-right";
+  const text = document.createElement("p");
+  text.id = "speech" + i;
+  text.className = "speech";
   text.innerText = `Panel${i + 1}`;
   divElement1.append(text);
-
-  // const imageElement = document.createElement("img");
-  // imageElement.className = "image_element";
-  // imageElement.src =
-  //   "https://upload.wikimedia.org/wikipedia/commons/a/a4/JavaScript_code.png";
-  // divElement1.append(imageElement);
   image_container.append(divElement1);
 }
 
@@ -78,17 +73,17 @@ const generatecomic = async (event, obj) => {
     const response = await query({ inputs: val });
 
     const imageUrl = URL.createObjectURL(response);
-    const imageElement = document.createElement("img");
-    imageElement.className = "image_element";
-    imageElement.src = imageUrl;
-    console.log(imageUrl);
 
-    panel[idx].innerHTML = "";
-    const txt = document.createElement("h6");
-    txt.className = "text bottom-right";
-    txt.innerText = textar;
-    panel[idx].append(txt);
-    panel[idx].append(imageElement);
+    // panel[idx].innerHTML = "";
+    panel[idx].firstChild.innerText = textar;
+    if (panel[idx].lastChild.className === "speech") {
+      const imageElement = document.createElement("img");
+      imageElement.className = "image_element";
+      imageElement.src = imageUrl;
+      panel[idx].append(imageElement);
+    } else {
+      panel[idx].lastChild.src = imageUrl;
+    }
     flag--;
     allloaders[idx].style.display = "none";
     if (flag === 0) {
@@ -127,7 +122,6 @@ $(document).ready(function () {
   $("#btn-Preview-Image").on("click", function () {
     let element = document.querySelectorAll(".image_element"); // global variable
 
-    console.log(element);
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
 
@@ -158,7 +152,6 @@ $(document).ready(function () {
     }
 
     loadImages(sources, function (images) {
-      console.log(images);
       let pageWidth = window.screen.width;
       let r = 5;
       let d = 2 + 2 * r;
@@ -190,4 +183,45 @@ $(document).ready(function () {
     link.href = document.getElementById("canvas").toDataURL();
     link.click();
   });
+});
+
+let container = document.querySelectorAll(".speech");
+
+container.forEach((div) => {
+  let mousePosition;
+  let offset = [0, 0];
+  let isDown = false;
+
+  div.addEventListener(
+    "mousedown",
+    function (e) {
+      isDown = true;
+      offset = [div.offsetLeft - e.clientX, div.offsetTop - e.clientY];
+    },
+    true
+  );
+
+  document.addEventListener(
+    "mouseup",
+    function () {
+      isDown = false;
+    },
+    true
+  );
+
+  document.addEventListener(
+    "mousemove",
+    function (event) {
+      event.preventDefault();
+      if (isDown) {
+        mousePosition = {
+          x: event.clientX,
+          y: event.clientY,
+        };
+        div.style.left = mousePosition.x + offset[0] + "px";
+        div.style.top = mousePosition.y + offset[1] + "px";
+      }
+    },
+    true
+  );
 });
