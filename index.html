@@ -1,0 +1,42 @@
+<html>
+ <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Strip Generator</title>
+   <link rel="stylesheet" href="index.css">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marhey:wght@500&display=swap" rel="stylesheet">
+<script src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+    <center>
+        <h3>Comic Strip Generator</h3>
+ 
+        <div class="form">
+            <form >
+                <div class="row"></div>
+            </form>
+        </div>
+        <h2 class="h2" style="display: none;">Give the panels name</h2>
+        <h3 class="h3" style="display: none; font-size: 2em;">Enjoy reading interesting facts until it loads!
+            <div class="facts">The largest comic book market in the world is in Japan. Nearly 2 billion Japanese comic books (called manga) are sold every year.</div>
+            <div class="loader"></div></h3>
+        <div id="full-container">
+
+            <div id="image-container" xmlns='http://www.w3.org/1999/xhtml'></div>
+        </div>
+        
+        <input id="btn-Preview-Image" type="button" value="Preview"/>
+        <a id="btn-Convert-Html2Image" href="#">Download</a>
+        <br/>
+        <h3>Preview :</h3>
+        <div id="previewImage">
+        </div>
+        <canvas id="canvas" width="2000px" height="3500px" style="border:1px solid #000000;">
+        </canvas>
+</body>
+<script src="script.js"></script>
+</html>
